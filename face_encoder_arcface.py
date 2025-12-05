@@ -112,7 +112,13 @@ class ArcFaceEncoder:
             encoding_count = 0
             
             # Iterasi setiap foto dalam folder orang tersebut
-            for image_path in person_dir.glob("*.jpg"):
+            # Support multiple image formats
+            image_extensions = ['*.jpg', '*.jpeg', '*.png', '*.JPG', '*.JPEG', '*.PNG']
+            image_files = []
+            for ext in image_extensions:
+                image_files.extend(person_dir.glob(ext))
+            
+            for image_path in image_files:
                 image_count += 1
                 
                 # Load gambar

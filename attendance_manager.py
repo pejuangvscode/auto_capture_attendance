@@ -61,7 +61,7 @@ class AttendanceManager:
             time_diff = (now - self.last_attendance[name]).total_seconds()
             if time_diff < self.cooldown:
                 remaining = int(self.cooldown - time_diff)
-                print(f"⏳ {name} sudah absen. Cooldown: {remaining}s")
+                print(f"{name} sudah absen. Cooldown: {remaining}s")
                 return False
         
         # Catat presensi ke CSV
