@@ -254,6 +254,31 @@ self.frame_skip = 3  # Skip lebih banyak frame
 
 ## Troubleshooting
 
+### Error: NumPy Version Conflict
+
+Jika muncul error `numpy.core.multiarray failed to import` atau `A module that was compiled using NumPy 1.x cannot be run in NumPy 2.x`:
+
+```bash
+source venv/bin/activate
+pip uninstall -y numpy
+pip install "numpy<2.0"
+pip install --force-reinstall --no-cache-dir opencv-contrib-python==4.8.1.78
+```
+
+### Error: OpenCV cvNamedWindow
+
+Jika muncul error `cvNamedWindow` di Raspberry Pi:
+
+```bash
+# Reinstall OpenCV dengan GTK support
+sudo apt-get install -y libgtk-3-dev libcanberra-gtk-module libcanberra-gtk3-module
+source venv/bin/activate
+pip uninstall -y opencv-python opencv-contrib-python
+pip install opencv-contrib-python==4.8.1.78
+```
+
+Atau edit `01_main_system.py` dan comment fullscreen code (line ~369-377).
+
 ### Kamera Tidak Terdeteksi
 
 ```bash

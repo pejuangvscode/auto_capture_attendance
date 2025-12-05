@@ -364,11 +364,20 @@ class AttendanceSystem:
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, config.FRAME_HEIGHT)
         cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)  # Reduce buffer lag
         
-        # Setup window dengan fullscreen
+        # Setup window dengan fullscreen - compatible untuk Raspberry Pi
         window_name = 'GKI Karawaci - Attendance System'
-        cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
         self.is_fullscreen = True
+        
+        # Create window tanpa fullscreen dulu untuk compatibility
+        cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+        
+        # Try fullscreen after window creation
+        try:
+            cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        except Exception as e:
+            print(f"⚠ Fullscreen mode tidak support: {e}")
+            print("  Menggunakan window mode biasa")
+            self.is_fullscreen = False
         
         # Start threads
         capture_thread = Thread(target=self._capture_frames, args=(cap,), daemon=True)
@@ -442,12 +451,15 @@ class AttendanceSystem:
             elif key == ord('f'):
                 # Toggle fullscreen
                 self.is_fullscreen = not self.is_fullscreen
-                if self.is_fullscreen:
-                    cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-                    print("Fullscreen: ON")
-                else:
-                    cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
-                    print("Fullscreen: OFF")
+                try:
+                    if self.is_fullscreen:
+                        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+                        print("Fullscreen: ON")
+                    else:
+                        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
+                        print("Fullscreen: OFF")
+                except Exception as e:
+                    print(f"⚠ Fullscreen toggle tidak support: {e}")
             elif key == ord('+') or key == ord('='):
                 # Kurangi skip untuk lebih akurat
                 self.frame_skip = max(1, self.frame_skip - 1)

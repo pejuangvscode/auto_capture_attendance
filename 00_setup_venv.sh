@@ -22,10 +22,10 @@ source venv/bin/activate
 echo "Upgrading pip..."
 pip install --upgrade pip
 
-# Install dependencies
+# Install dependencies dengan versi yang kompatibel
 echo "Installing dependencies..."
 echo "This may take 10-30 minutes depending on your system..."
-pip install opencv-python numpy pillow ultralytics
+pip install "numpy<2.0" opencv-contrib-python==4.8.1.78 pillow ultralytics
 
 # Install PyTorch (CPU version untuk Raspberry Pi)
 echo "Installing PyTorch (CPU version)..."
@@ -35,6 +35,10 @@ pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 echo "Installing InsightFace..."
 pip install insightface onnxruntime
 
+# Install Database support (optional)
+echo "Installing database support..."
+pip install psycopg2-binary python-dotenv
+
 echo ""
 echo "✓ Setup selesai!"
 echo ""
@@ -43,6 +47,5 @@ echo "  source venv/bin/activate"
 echo ""
 echo "Untuk menjalankan sistem:"
 echo "  source venv/bin/activate"
-echo "  python 01_setup_directories.py"
-echo "  python 03_face_encoder_arcface.py"
-echo "  python 07_main_system_yolo.py"
+echo "  python 01_main_system.py    # Jalankan sistem"
+echo "  python 02_retrain_model.py  # Training model"
