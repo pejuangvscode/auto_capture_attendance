@@ -33,17 +33,17 @@ source venv/bin/activate
 
 ```bash
 # Pertama kali: jalankan main system untuk capture wajah
-python 07_main_system.py
+python 01_main_system.py
 # Tekan 'q' setelah wajah ter-capture
 
 # Training model dengan wajah yang ter-capture
-python 08_retrain_model.py
+python 02_retrain_model.py
 ```
 
 ### 3. Jalankan Sistem
 
 ```bash
-python 07_main_system.py
+python 01_main_system.py
 ```
 
 **Kontrol:**
@@ -84,8 +84,8 @@ Lihat `requirements.txt` untuk daftar lengkap.
 ```
 pkm/
 ├── 00_setup_venv.sh           # Setup script
-├── 07_main_system.py          # Main program
-├── 08_retrain_model.py        # Training script
+├── 01_main_system.py          # Main program
+├── 02_retrain_model.py        # Training script
 ├── config.py                  # Konfigurasi
 ├── face_detector_yolo.py      # YOLO detector
 ├── face_encoder_arcface.py    # ArcFace encoder
@@ -212,7 +212,7 @@ Run system → Wajah ter-capture → Retrain model
 
 ### 3. Daily Operation
 ```
-Jalankan 07_main_system.py → Monitor kehadiran
+Jalankan 01_main_system.py → Monitor kehadiran
 ```
 
 ---

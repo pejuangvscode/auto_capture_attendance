@@ -108,7 +108,7 @@ npx prisma db push
 source venv/bin/activate
 
 # Jalankan sistem (wajah akan di-capture sebagai "Unknown")
-python 07_main_system.py
+python 01_main_system.py
 ```
 
 **Cara kerja:**
@@ -119,7 +119,7 @@ python 07_main_system.py
 ### 3.2 Retrain Model
 
 ```bash
-python 08_retrain_model.py
+python 02_retrain_model.py
 ```
 
 **Proses:**
@@ -148,7 +148,7 @@ Jemaat terdaftar ke database (jika Supabase aktif)
 source venv/bin/activate
 
 # Jalankan sistem
-python 07_main_system.py
+python 01_main_system.py
 ```
 
 ### 4.2 Kontrol Keyboard
@@ -195,21 +195,21 @@ cat data/attendance.csv
 ### 5.2 Tambah Wajah Baru
 
 **Cara 1: Auto Capture (Recommended)**
-1. Jalankan sistem: `python 07_main_system.py`
+1. Jalankan sistem: `python 01_main_system.py`
 2. Orang baru akan di-capture otomatis sebagai "Unknown"
 3. Keluar dengan `q`
-4. Retrain model: `python 08_retrain_model.py`
+4. Retrain model: `python 02_retrain_model.py`
 
 **Cara 2: Manual Copy**
 1. Buat folder baru di `data/faces/NamaOrang/`
 2. Copy minimal 5 foto wajah (format: .jpg)
-3. Retrain model: `python 08_retrain_model.py`
+3. Retrain model: `python 02_retrain_model.py`
 
 ### 5.3 Update Model
 
 Setiap kali ada wajah baru atau perubahan:
 ```bash
-python 08_retrain_model.py
+python 02_retrain_model.py
 ```
 
 ---
@@ -240,7 +240,7 @@ ATTENDANCE_COOLDOWN = 3600  # Cooldown dalam detik (default: 1 jam)
 
 ### Optimasi untuk Raspberry Pi
 
-Jika FPS terlalu rendah, edit `07_main_system.py`:
+Jika FPS terlalu rendah, edit `01_main_system.py`:
 
 ```python
 # Line ~246: Uncomment untuk resize frame
@@ -324,7 +324,7 @@ Type=simple
 User=pi
 WorkingDirectory=/home/pi/pkm
 Environment="DISPLAY=:0"
-ExecStart=/home/pi/pkm/venv/bin/python /home/pi/pkm/07_main_system.py
+ExecStart=/home/pi/pkm/venv/bin/python /home/pi/pkm/01_main_system.py
 Restart=on-failure
 RestartSec=10
 
@@ -348,8 +348,8 @@ sudo systemctl status presensi.service
 ```
 pkm/
 ├── 00_setup_venv.sh           # Setup script
-├── 07_main_system.py          # Main program
-├── 08_retrain_model.py        # Training script
+├── 01_main_system.py          # Main program
+├── 02_retrain_model.py        # Training script
 ├── config.py                  # Konfigurasi
 ├── face_detector_yolo.py      # YOLO detector
 ├── face_encoder_arcface.py    # ArcFace encoder
