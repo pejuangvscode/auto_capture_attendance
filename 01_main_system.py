@@ -355,6 +355,7 @@ class AttendanceSystem:
         print("Sistem berjalan dengan multi-threading...")
         print("Tekan 'q' untuk keluar")
         print("Tekan 's' untuk melihat statistik hari ini")
+        print("Tekan 'f' untuk toggle fullscreen")
         print("Tekan '+' untuk kurangi skip (lebih akurat, lebih lambat)")
         print("Tekan '-' untuk tambah skip (lebih cepat, kurang akurat)\n")
         
@@ -362,6 +363,12 @@ class AttendanceSystem:
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, config.FRAME_WIDTH)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, config.FRAME_HEIGHT)
         cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)  # Reduce buffer lag
+        
+        # Setup window dengan fullscreen
+        window_name = 'GKI Karawaci - Attendance System'
+        cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        self.is_fullscreen = True
         
         # Start threads
         capture_thread = Thread(target=self._capture_frames, args=(cap,), daemon=True)
@@ -424,7 +431,7 @@ class AttendanceSystem:
             # Clean UI - No system info displayed
             
             # Tampilkan frame
-            cv2.imshow('GKI Karawaci - Attendance System', frame)
+            cv2.imshow(window_name, frame)
             
             # Handle keyboard
             key = cv2.waitKey(1) & 0xFF
@@ -432,6 +439,15 @@ class AttendanceSystem:
                 break
             elif key == ord('s'):
                 self._show_statistics()
+            elif key == ord('f'):
+                # Toggle fullscreen
+                self.is_fullscreen = not self.is_fullscreen
+                if self.is_fullscreen:
+                    cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+                    print("Fullscreen: ON")
+                else:
+                    cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
+                    print("Fullscreen: OFF")
             elif key == ord('+') or key == ord('='):
                 # Kurangi skip untuk lebih akurat
                 self.frame_skip = max(1, self.frame_skip - 1)
