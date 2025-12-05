@@ -22,7 +22,7 @@ source venv/bin/activate
 echo "Upgrading pip..."
 pip install --upgrade pip
 
-# Install dependencies dengan versi yang kompatibel
+    # Install dependencies dengan versi yang kompatibel
 echo "Installing dependencies..."
 echo "This may take 10-30 minutes depending on your system..."
 pip install "numpy<2.0" opencv-contrib-python==4.8.1.78 pillow ultralytics
