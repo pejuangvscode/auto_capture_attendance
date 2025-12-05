@@ -1,8 +1,18 @@
 #!/bin/bash
 # Setup Virtual Environment untuk Sistem Presensi GKI Karawaci
+# Optimized untuk Raspberry Pi 5
 
-echo "=== Setup Virtual Environment ==="
+echo "=== Setup Virtual Environment (Raspberry Pi 5) ==="
 echo ""
+
+# Install system dependencies untuk Raspberry Pi 5
+echo "Installing system dependencies..."
+sudo apt update
+sudo apt install -y python3-venv python3-full python3-dev
+sudo apt install -y libopencv-dev python3-opencv
+sudo apt install -y libatlas-base-dev gfortran
+sudo apt install -y libhdf5-dev libhdf5-serial-dev
+sudo apt install -y libjpeg-dev zlib1g-dev
 
 # Cek apakah python3-venv terinstall
 if ! dpkg -l | grep -q python3-venv; then
@@ -22,20 +32,26 @@ source venv/bin/activate
 echo "Upgrading pip..."
 pip install --upgrade pip
 
-    # Install dependencies dengan versi yang kompatibel
-echo "Installing dependencies..."
-echo "This may take 10-30 minutes depending on your system..."
-pip install "numpy<2.0" opencv-contrib-python==4.8.1.78 pillow ultralytics
+# Install NumPy dulu (penting untuk Raspberry Pi 5)
+echo "Installing NumPy 1.24.3..."
+pip install numpy==1.24.3
 
-# Install PyTorch (CPU version untuk Raspberry Pi)
+# Install dependencies dengan versi yang kompatibel untuk Raspberry Pi 5
+echo "Installing OpenCV and dependencies..."
+echo "This may take 10-30 minutes depending on your system..."
+pip install opencv-contrib-python==4.8.1.78 pillow
+
+# Install PyTorch (CPU version untuk Raspberry Pi 5)
 echo "Installing PyTorch (CPU version)..."
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+pip install torch==2.1.0 torchvision==0.16.0 --index-url https://download.pytorch.org/whl/cpu
+
+# Install Ultralytics YOLO
+echo "Installing Ultralytics..."
+pip install ultralytics==8.0.220
 
 # Install InsightFace
 echo "Installing InsightFace..."
-pip install insightface onnxruntime
-
-# Install Database support (optional)
+pip install insightface==0.7.3 onnxruntime==1.16.0# Install Database support (optional)
 echo "Installing database support..."
 pip install psycopg2-binary python-dotenv
 

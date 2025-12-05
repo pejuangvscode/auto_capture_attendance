@@ -1,20 +1,19 @@
 # Panduan Instalasi - Sistem Presensi GKI Karawaci
-## Instalasi di Raspberry Pi
+## Instalasi di Raspberry Pi 5
 
 ---
 
 ## Persyaratan Sistem
 
 ### Hardware
-- **Raspberry Pi 4** (Recommended) atau Raspberry Pi 3B+
-- **RAM**: Minimal 2GB (Recommended 4GB)
-- **Storage**: Minimal 16GB microSD
+- **Raspberry Pi 5** (4GB atau 8GB RAM recommended)
+- **Storage**: Minimal 16GB microSD (32GB recommended)
 - **Kamera**: USB Webcam atau Raspberry Pi Camera Module
 - **Internet**: Untuk download dependencies
 
 ### Software
-- **OS**: Raspberry Pi OS (Bullseye atau lebih baru)
-- **Python**: 3.8 atau lebih baru (biasanya sudah terinstall)
+- **OS**: Raspberry Pi OS (Bookworm atau lebih baru)
+- **Python**: 3.11 atau lebih baru (biasanya sudah terinstall)
 
 ---
 
@@ -254,30 +253,39 @@ self.frame_skip = 3  # Skip lebih banyak frame
 
 ## Troubleshooting
 
-### Error: NumPy Version Conflict
+### Error: NumPy Version Conflict (Raspberry Pi 5)
 
-Jika muncul error `numpy.core.multiarray failed to import` atau `A module that was compiled using NumPy 1.x cannot be run in NumPy 2.x`:
+Jika muncul error `numpy.core.multiarray failed to import`:
 
 ```bash
-source venv/bin/activate
-pip uninstall -y numpy
-pip install "numpy<2.0"
-pip install --force-reinstall --no-cache-dir opencv-contrib-python==4.8.1.78
+# Jalankan fix script
+chmod +x fix_numpy.sh
+bash fix_numpy.sh
 ```
 
-### Error: OpenCV cvNamedWindow
+Atau manual:
+```bash
+source venv/bin/activate
+pip uninstall -y numpy opencv-python opencv-contrib-python
+pip install numpy==1.24.3
+pip install --no-cache-dir opencv-contrib-python==4.8.1.78
+```
 
-Jika muncul error `cvNamedWindow` di Raspberry Pi:
+### Error: OpenCV cvNamedWindow (Raspberry Pi 5)
+
+Install system dependencies:
 
 ```bash
-# Reinstall OpenCV dengan GTK support
-sudo apt-get install -y libgtk-3-dev libcanberra-gtk-module libcanberra-gtk3-module
+sudo apt update
+sudo apt install -y libopencv-dev python3-opencv libgtk-3-dev
+```
+
+Lalu reinstall:
+```bash
 source venv/bin/activate
 pip uninstall -y opencv-python opencv-contrib-python
-pip install opencv-contrib-python==4.8.1.78
+pip install --no-cache-dir opencv-contrib-python==4.8.1.78
 ```
-
-Atau edit `01_main_system.py` dan comment fullscreen code (line ~369-377).
 
 ### Kamera Tidak Terdeteksi
 
