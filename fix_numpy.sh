@@ -1,5 +1,5 @@
 #!/bin/bash
-# Quick fix untuk NumPy version conflict di Raspberry Pi 5
+# Quick fix untuk NumPy & PyTorch Version di Raspberry Pi 5
 
 echo "=== Fix NumPy & PyTorch Version (Raspberry Pi 5) ==="
 echo ""
@@ -7,7 +7,7 @@ echo ""
 # Install system dependencies jika belum ada
 echo "Installing system dependencies..."
 sudo apt update
-sudo apt install -y libopencv-dev python3-dev libatlas-base-dev
+sudo apt install -y libopencv-dev python3-dev libopenblas-dev gfortran
 
 # Aktivasi virtual environment
 source venv/bin/activate
@@ -16,21 +16,21 @@ source venv/bin/activate
 echo "Uninstalling conflicting packages..."
 pip uninstall -y numpy opencv-python opencv-contrib-python torch torchvision ultralytics
 
-# Install NumPy versi yang kompatibel
-echo "Installing compatible NumPy 1.24.3..."
-pip install numpy==1.24.3
+# Install NumPy versi yang kompatibel dengan Python 3.13
+echo "Installing compatible NumPy 2.1.2..."
+pip install numpy==2.1.2
 
-# Install PyTorch versi stabil (bukan 2.6)
-echo "Installing PyTorch 2.1.0 (stable)..."
-pip install torch==2.1.0 torchvision==0.16.0 --index-url https://download.pytorch.org/whl/cpu
+# Install PyTorch latest stable untuk CPU
+echo "Installing PyTorch (latest CPU version)..."
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 
 # Install OpenCV dengan rebuild
 echo "Installing OpenCV 4.8.1.78..."
 pip install --no-cache-dir opencv-contrib-python==4.8.1.78
 
-# Reinstall Ultralytics
-echo "Installing Ultralytics 8.0.220..."
-pip install ultralytics==8.0.220
+# Install Ultralytics versi terbaru yang kompatibel
+echo "Installing Ultralytics (latest)..."
+pip install ultralytics
 
 echo ""
 echo "✓ Fix selesai!"

@@ -10,7 +10,7 @@ echo "Installing system dependencies..."
 sudo apt update
 sudo apt install -y python3-venv python3-full python3-dev
 sudo apt install -y libopencv-dev python3-opencv
-sudo apt install -y libatlas-base-dev gfortran
+sudo apt install -y libopenblas-dev gfortran
 sudo apt install -y libhdf5-dev libhdf5-serial-dev
 sudo apt install -y libjpeg-dev zlib1g-dev
 
