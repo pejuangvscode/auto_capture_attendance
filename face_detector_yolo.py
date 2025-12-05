@@ -6,9 +6,13 @@ Lebih ringan dan akurasi tinggi untuk Raspberry Pi
 
 import cv2
 import numpy as np
+import torch
 from ultralytics import YOLO
 import config
 import os
+
+# Fix untuk PyTorch 2.6+ weights_only issue
+torch.serialization.add_safe_globals(['ultralytics.nn.tasks.DetectionModel'])
 
 class YOLOFaceDetector:
     """Class untuk mendeteksi wajah menggunakan YOLO"""
